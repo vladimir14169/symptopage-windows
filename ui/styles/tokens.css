@@ -1,0 +1,55 @@
+/* Design tokens. Colours and shapes come from the colleague's mock-ups
+   ("zdrowo — ekran startowy": accent #167374, accentSoft #8ED6CF, chip #CDEDE9,
+   bg #EAF7F5, ink #0F2A2E). Coral for Now / Teraz replaces the mock-up's red
+   (#D32F2F) so the capture button is not mistaken for an emergency call.
+   Contrast ratios are listed in docs/FRONTEND_INTEGRATION.md. */
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("../fonts/manrope-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("../fonts/manrope-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --font: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --ink: #0f2a2e;
+  --ink-2: #1b4a4d;
+  --muted: #3f5559; /* 7.2:1 on --bg */
+  --muted-2: #4a5f62;
+  --bg: #eaf7f5;
+  --surface: #ffffff;
+  --surface-2: #f5fbfa;
+  --accent: #167374; /* primary actions; white text 5.6:1 */
+  --accent-hover: #0f5e5f;
+  --accent-soft: #8ed6cf;
+  --accent-wash: #a6e0da;
+  --chip: #cdede9;
+  --line: #d5e9e6;
+  --coral: #ff9b82; /* Now / Teraz, dark text 7.4:1 */
+  --coral-hover: #ff8a6d;
+  --coral-ink: #0f2a2e;
+  --warn-bg: #fff4e5;
+  --warn-ink: #6b3d00;
+  --danger: #a3281f;
+  --danger-bg: #fde7e6;
+  --ok: #17663a;
+  --focus: #0b4f9c;
+  --radius-s: 12px;
+  --radius: 16px;
+  --radius-l: 24px;
+  --radius-xl: 32px;
+  --shadow: 0 8px 24px rgba(15, 42, 46, 0.1);
+  --shadow-s: 0 2px 8px rgba(15, 42, 46, 0.08);
+  --gap: 16px;
+}

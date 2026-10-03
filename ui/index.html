@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
     />
     <title>SymptoPage</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles/tokens.css" />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/print.css" media="print" />
   </head>
   <body>
     <div id="app"></div>
     <div id="notice" role="status" aria-live="polite"></div>
     <dialog id="modal"></dialog>
-    <section id="print-report"></section>
-    <script type="module" src="app.js"></script>
+    <section id="print-report" aria-hidden="true"></section>
+    <script type="module" src="js/app.js"></script>
   </body>
 </html>

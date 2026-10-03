@@ -196,6 +196,14 @@ const handlers = {
     };
     v.status = "done";
     v.updatedAt = at;
+    // Recording results moves a waiting observation to "visit took place";
+    // later stages are left alone and the user can still correct it.
+    const o = s.observations.find((x) => x.id === v.observationId);
+    if (o.stage === "waiting") {
+      o.stage = "visited";
+      o.stageHistory = [...o.stageHistory, { stage: "visited", at }].slice(-100);
+      o.updatedAt = at;
+    }
   },
   "visit.delete"(s, p) {
     const v = find(s.visits, obj(p).id, "VISIT");

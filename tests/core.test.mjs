@@ -127,6 +127,7 @@ test("visit outcome, prescriptions with source, and linked follow-up visit", () 
   assert.equal(visit2.kind, "followup");
   assert.equal(visit2.previousVisitId, v1);
   assert.equal(b.state.visits.find((v) => v.id === v1).status, "done");
+  assert.equal(b.state.observations.find((o) => o.id === o1).stage, "visited", "waiting → visited after results");
   assert.equal(b.state.prescriptions.find((x) => x.id === p).source, "document");
 });
 
