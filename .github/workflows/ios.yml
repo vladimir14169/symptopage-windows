@@ -53,6 +53,34 @@ jobs:
             -destination 'generic/platform=iOS Simulator' -derivedDataPath build-sim \
             CODE_SIGNING_ALLOWED=NO build > ../build-sim.log 2>&1 || { grep -E 'error:' ../build-sim.log | head -60; exit 1; }
           (cd build-sim/Build/Products/Debug-iphonesimulator && zip -qry ../../../../out/SymptoPage-Simulator.zip SymptoPage.app)
+      - name: Smoke run in iOS Simulator (screenshots)
+        working-directory: ios
+        run: |
+          set -x
+          mkdir -p ../shots
+          DEV=$(xcrun simctl list devices available -j | python3 -c "import json,sys; d=json.load(sys.stdin)['devices']; print(next(x['udid'] for r,l in d.items() if 'iOS' in r for x in l if x['name'].startswith('iPhone')))")
+          xcrun simctl boot "$DEV"; xcrun simctl bootstatus "$DEV" -b
+          APP=build-sim/Build/Products/Debug-iphonesimulator/SymptoPage.app
+          xcrun simctl install "$DEV" "$APP"
+          xcrun simctl launch "$DEV" app.symptopage.ios; sleep 8
+          xcrun simctl io "$DEV" screenshot ../shots/1-first-run.png
+          xcrun simctl terminate "$DEV" app.symptopage.ios || true
+          # Synthetic TEST data from the Windows core (Polish UI, 2 doctors, entries, course).
+          C=$(xcrun simctl get_app_container "$DEV" app.symptopage.ios data)
+          mkdir -p "$C/Library/Application Support/SymptoPage"
+          cp ../tests/fixtures/v2-sample.json "$C/Library/Application Support/SymptoPage/records.json"
+          xcrun simctl launch "$DEV" app.symptopage.ios; sleep 8
+          xcrun simctl io "$DEV" screenshot ../shots/2-with-test-data.png
+          # The app must still be running (no crash).
+          xcrun simctl spawn "$DEV" launchctl list | grep -i symptopage | tee ../shots/running.txt
+          ls ~/Library/Logs/DiagnosticReports 2>/dev/null | grep -i symptopage && exit 1 || true
+          # The data file must still be valid v2 after launch.
+          python3 -c "import json;d=json.load(open('$C/Library/Application Support/SymptoPage/records.json'));assert d['schemaVersion']==2;print('records ok',len(d['entries']))"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ios-simulator-screenshots
+          path: shots/
       - name: Checksums
         working-directory: ios/out
         run: shasum -a 256 *.ipa *.zip | tee SHA256SUMS.txt
