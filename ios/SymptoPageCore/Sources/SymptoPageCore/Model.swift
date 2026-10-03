@@ -67,7 +67,7 @@ public struct StageEntry: Codable, Equatable, Sendable {
     public var at: String
 }
 
-public struct Observation: Codable, Equatable, Identifiable, Sendable {
+public struct ObservationPeriod: Codable, Equatable, Identifiable, Sendable {
     public var id: String
     public var doctorId: String
     public var reason: String
@@ -246,7 +246,7 @@ public struct AppState: Codable, Equatable, Sendable {
     public var schemaVersion: Int = Schema.version
     public var settings = Settings()
     public var doctors: [Doctor] = []
-    public var observations: [Observation] = []
+    public var observations: [ObservationPeriod] = []
     public var visits: [Visit] = []
     public var prescriptions: [Prescription] = []
     public var courses: [Course] = []

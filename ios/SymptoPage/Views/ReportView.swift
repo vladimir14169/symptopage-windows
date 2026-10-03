@@ -32,10 +32,10 @@ struct ReportView: View {
 
     var range: (String, String) { (TimeUtil.localDay(from), TimeUtil.localDay(to)) }
 
-    func scoped() -> ([Entry], [DailyRating], [Observation]) {
+    func scoped() -> ([Entry], [DailyRating], [ObservationPeriod]) {
         let s = model.state!
-        let obs = model.visibleObservations
-        let ids = Set(obs.map(\.id))
+        let obs: [ObservationPeriod] = model.visibleObservations
+        let ids = Set(obs.map { $0.id })
         let (a, b) = range
         let entries = s.entries.filter { e in
             let d = TimeUtil.parseInstant(e.occurredAt).map { TimeUtil.localDay($0) } ?? ""
@@ -61,8 +61,13 @@ struct ReportView: View {
         let (entries, ratings, obs) = scoped()
         let (a, b) = range
         var h = "<html><head><meta charset='utf-8'><style>body{font-family:-apple-system;font-size:11pt;color:#000}h1{font-size:17pt;border-bottom:2px solid #167374}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:3px;text-align:left;font-size:9.5pt}.s{color:#444;font-size:9pt}.pb{page-break-before:always}</style></head><body>"
-        h += "<p class='s'>SymptoPage</p><h1>\(model.t("report.docTitle"))</h1><p class='s'>\(model.t("report.period", ["from": a, "to": b]))</p><p><i>\(model.t("report.disclaimer"))</i></p>"
-        h += "<h3>\(model.t("report.reasons"))</h3><ul>" + obs.map { "<li><b>\(esc(model.doctorLabel($0.doctorId)))</b> — \(esc($0.reason))</li>" }.joined() + "</ul>"
+        let title = model.t("report.docTitle")
+        let period = model.t("report.period", ["from": a, "to": b])
+        let disclaimer = model.t("report.disclaimer")
+        h += "<p class='s'>SymptoPage</p><h1>" + title + "</h1>"
+        h += "<p class='s'>" + period + "</p><p><i>" + disclaimer + "</i></p>"
+        let reasons: [String] = obs.map { o in "<li><b>" + esc(model.doctorLabel(o.doctorId)) + "</b> — " + esc(o.reason) + "</li>" }
+        h += "<h3>" + model.t("report.reasons") + "</h3><ul>" + reasons.joined() + "</ul>"
         h += "<h3>\(model.t("report.symptoms"))</h3>"
         if entries.isEmpty && ratings.isEmpty { h += "<p>\(model.t("report.noRecords"))</p>" } else {
             h += "<p class='s'>\(model.t("report.gapNote"))</p><table><tr><th>\(model.t("entry.symptom"))</th><th>\(model.t("report.colEvents"))</th><th>\(model.t("report.colIntensity"))</th></tr>"

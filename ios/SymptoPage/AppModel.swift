@@ -135,7 +135,7 @@ final class AppModel {
 
     // MARK: derived
 
-    var visibleObservations: [Observation] {
+    var visibleObservations: [ObservationPeriod] {
         guard let s = state else { return [] }
         return s.observations.filter { o in
             guard o.archivedAt == nil, let d = s.doctors.first(where: { $0.id == o.doctorId }), d.archivedAt == nil else { return false }

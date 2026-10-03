@@ -51,7 +51,7 @@ public enum Migration {
         let created = TimeUtil.isInstant(v.createdAt) ? v.createdAt! : at
         let doctorId = newId()
         s.doctors.append(Doctor(id: doctorId, specialty: v.specialist, specialtyCustom: "", name: "", clinic: "", note: "", archivedAt: nil, createdAt: created, updatedAt: at))
-        s.observations.append(Observation(id: v.id, doctorId: doctorId, reason: v.reason.trimmingCharacters(in: .whitespacesAndNewlines), questions: "", stage: "waiting", stageHistory: [StageEntry(stage: "waiting", at: created)], previousObservationId: nil, archivedAt: nil, createdAt: created, updatedAt: at))
+        s.observations.append(ObservationPeriod(id: v.id, doctorId: doctorId, reason: v.reason.trimmingCharacters(in: .whitespacesAndNewlines), questions: "", stage: "waiting", stageHistory: [StageEntry(stage: "waiting", at: created)], previousObservationId: nil, archivedAt: nil, createdAt: created, updatedAt: at))
         s.visits.append(Visit(id: newId(), observationId: v.id, date: v.date, time: nil, kind: "initial", status: "planned", previousVisitId: nil, outcome: nil, createdAt: created, updatedAt: at))
         var seen = Set<String>()
         for e in v1.events {

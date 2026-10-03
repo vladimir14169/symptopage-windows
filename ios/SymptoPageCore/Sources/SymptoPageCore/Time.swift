@@ -58,12 +58,22 @@ public enum TimeUtil {
         return w == 1 ? 7 : w - 1
     }
 
-    /// Local wall-clock day + "HH:MM" → instant. A time inside a DST gap moves
-    /// forward by the gap (02:30 → 03:30), matching the JS engine's behaviour.
+    /// Local wall-clock day + "HH:MM" → instant, with the same rules as the JS
+    /// engine used on Windows: inside a DST gap the time moves forward by the gap
+    /// (02:30 → 03:30); a repeated hour resolves to its first occurrence.
     public static func wallClock(_ day: String, _ time: String, calendar: Calendar = .current) -> Date {
         let p = day.split(separator: "-").compactMap { Int($0) }
         let t = time.split(separator: ":").compactMap { Int($0) }
-        let midnight = calendar.date(from: DateComponents(year: p[0], month: p[1], day: p[2], hour: 0, minute: 0))!
-        return calendar.date(bySettingHour: t[0], minute: t[1], second: 0, of: midnight, matchingPolicy: .nextTimePreservingSmallerComponents, repeatedTimePolicy: .first, direction: .forward)!
+        var utc = Calendar(identifier: .gregorian); utc.timeZone = TimeZone(identifier: "UTC")!
+        let naive = utc.date(from: DateComponents(year: p[0], month: p[1], day: p[2], hour: t[0], minute: t[1]))!
+        let tz = calendar.timeZone
+        let before = tz.secondsFromGMT(for: naive.addingTimeInterval(-3 * 3600))
+        let after = tz.secondsFromGMT(for: naive.addingTimeInterval(3 * 3600))
+        let matches = { (d: Date) -> Bool in
+            let c = calendar.dateComponents(in: tz, from: d)
+            return c.hour == t[0] && c.minute == t[1]
+        }
+        let candidates = [naive.addingTimeInterval(TimeInterval(-before)), naive.addingTimeInterval(TimeInterval(-after))].filter(matches)
+        return candidates.min() ?? naive.addingTimeInterval(TimeInterval(-before))
     }
 }

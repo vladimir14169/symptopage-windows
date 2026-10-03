@@ -120,7 +120,7 @@ struct VisitRow: View {
 
 struct StageCard: View {
     @Environment(AppModel.self) private var model
-    let observation: Observation
+    let observation: ObservationPeriod
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(model.doctorLabel(observation.doctorId)).font(.caption.bold()).textCase(.uppercase)
@@ -154,7 +154,7 @@ struct EntryForm: View {
             Form {
                 Section(model.t("entry.symptom")) {
                     Picker(model.t("entry.symptom"), selection: $symptom) {
-                        ForEach(Schema.symptoms, id: \.self) { Text($0 == "custom" ? model.t("symptom.customChoice") : model.t("symptom." + $0)).tag($0) }
+                        ForEach(Schema.symptoms, id: \.self) { key in Text(symptomName(key)).tag(key) }
                     }
                     if symptom == "custom" { TextField(model.t("entry.customLabel"), text: $customLabel) }
                 }
@@ -194,6 +194,10 @@ struct EntryForm: View {
         }
     }
 
+    func symptomName(_ key: String) -> String {
+        key == "custom" ? model.t("symptom.customChoice") : model.t("symptom." + key)
+    }
+
     func load() {
         if let e = entry {
             symptom = e.symptom; customLabel = e.customLabel; note = e.note; intensity = e.intensity
@@ -202,8 +206,9 @@ struct EntryForm: View {
             trigger = e.trigger; links = Set(e.observationIds)
             more = e.intensity != nil || e.durationMinutes != nil || e.count != nil || !e.trigger.isEmpty
         } else {
-            let active = model.visibleObservations
-            links = Set(model.filterDoctorIds.isEmpty ? (active.count == 1 ? [active[0].id] : []) : active.map(\.id))
+            let active: [ObservationPeriod] = model.visibleObservations
+            let ids: [String] = active.map { $0.id }
+            if !model.filterDoctorIds.isEmpty { links = Set(ids) } else if ids.count == 1 { links = Set(ids) } else { links = [] }
         }
     }
 }

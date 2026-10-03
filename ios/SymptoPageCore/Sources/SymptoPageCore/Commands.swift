@@ -79,7 +79,7 @@ public enum Commands {
         var s = s0
         _ = try idx(s.doctors, doctorId, "OBSERVATION_DOCTOR")
         let old = try id.map { s.observations[try idx(s.observations, $0, "OBSERVATION")] }
-        let o = Observation(id: old?.id ?? ctx.newId(), doctorId: doctorId, reason: try required(reason, "OBSERVATION_REASON"), questions: try text(questions, "OBSERVATION"),
+        let o = ObservationPeriod(id: old?.id ?? ctx.newId(), doctorId: doctorId, reason: try required(reason, "OBSERVATION_REASON"), questions: try text(questions, "OBSERVATION"),
                             stage: old?.stage ?? "waiting", stageHistory: old?.stageHistory ?? [StageEntry(stage: "waiting", at: ctx.at)],
                             previousObservationId: previousObservationId ?? old?.previousObservationId, archivedAt: old?.archivedAt,
                             createdAt: old?.createdAt ?? ctx.at, updatedAt: ctx.at)
