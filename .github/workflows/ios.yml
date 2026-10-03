@@ -30,6 +30,12 @@ jobs:
       - name: Generate Xcode project
         working-directory: ios
         run: brew install xcodegen && xcodegen generate
+      - name: Package source with generated Xcode project
+        run: |
+          mkdir -p ios/out
+          cp IOS_SETUP_RU.md ios/
+          zip -qry ios/out/SymptoPage-iOS-source.zip ios -x 'ios/out/*' 'ios/build*' 'ios/SymptoPageCore/.build/*'
+          rm ios/IOS_SETUP_RU.md
       - name: Build for iPhone (unsigned) and package .ipa
         working-directory: ios
         run: |
