@@ -221,11 +221,7 @@ struct JournalView: View {
 
     var body: some View {
         let s = model.state!
-        let ids = Set(model.visibleObservations.map(\.id))
-        let entries = s.entries.filter { e in
-            (model.filterDoctorIds.isEmpty || e.observationIds.isEmpty || e.observationIds.contains { ids.contains($0) })
-                && (query.isEmpty || [e.note, e.trigger, e.customLabel].contains { $0.localizedCaseInsensitiveContains(query) })
-        }
+        let entries = filtered(s)
         List {
             Section { DoctorFilter() }
             Section(model.t("journal.events")) {
@@ -236,7 +232,7 @@ struct JournalView: View {
                             Text(model.symptomLabel(e.symptom, e.customLabel)).font(.headline)
                             Text(TimeUtil.parseInstant(e.occurredAt)?.formatted(date: .abbreviated, time: .shortened) ?? e.occurredAt).font(.subheadline)
                             if !e.note.isEmpty { Text(e.note).font(.body) }
-                            Text(model.t("entry.linkedTo") + ": " + (e.observationIds.isEmpty ? model.t("entry.general") : e.observationIds.compactMap { id in s.observations.first { $0.id == id }.map { model.doctorLabel($0.doctorId) } }.joined(separator: ", ")))
+                            Text(linkText(e, s))
                                 .font(.footnote).foregroundStyle(.secondary)
                         }
                     }
@@ -258,5 +254,25 @@ struct JournalView: View {
         .toolbar { Button { adding = true } label: { Label(model.t("journal.add"), systemImage: "plus") } }
         .sheet(item: $editing) { EntryForm(entry: $0) }
         .sheet(isPresented: $adding) { EntryForm(entry: nil) }
+    }
+
+    func linkText(_ e: Entry, _ s: AppState) -> String {
+        if e.observationIds.isEmpty { return model.t("entry.linkedTo") + ": " + model.t("entry.general") }
+        var names: [String] = []
+        for id in e.observationIds {
+            if let o = s.observations.first(where: { $0.id == id }) { names.append(model.doctorLabel(o.doctorId)) }
+        }
+        return model.t("entry.linkedTo") + ": " + names.joined(separator: ", ")
+    }
+
+    func filtered(_ s: AppState) -> [Entry] {
+        let ids = Set(model.visibleObservations.map { $0.id })
+        let all = model.filterDoctorIds.isEmpty
+        return s.entries.filter { (e: Entry) -> Bool in
+            let inScope = all || e.observationIds.isEmpty || e.observationIds.contains(where: { ids.contains($0) })
+            if !inScope { return false }
+            if query.isEmpty { return true }
+            return [e.note, e.trigger, e.customLabel].contains(where: { $0.localizedCaseInsensitiveContains(query) })
+        }
     }
 }
