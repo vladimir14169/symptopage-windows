@@ -23,8 +23,8 @@ Total run: **38 + 5 passed, 0 failed.**
 |---|---|
 | `pnpm build:win` → NSIS Setup, Portable EXE, ZIP | ✅ built (unsigned) |
 | Package contents (app.asar) | ✅ only `src/`, `core/`, `ui/`, `assets/`, licences — no tests, fixtures or user data |
-| SHA-256 | `e0a0960106…6f12` Setup · `91c6b429ae…d703` Portable · `a354ebcac4…a6be` ZIP (full values in `dist/SHA256SUMS.txt`) |
-| Upgrade: installed **0.4.0 from the GitHub release** (checksum matched), created a visit and an entry, installed 0.5.0 over it | ✅ data migrated, `pre-migration-v1` backup made, entry with Polish characters visible |
+| SHA-256 (final build from commit `fc0e341`) | Setup `b976dba11452a548f60615355c113d224b70c5ce2e4bb9c453c47a5fb5466ef9`<br>Portable `0512525d8c40edfcf0ee7309c922d8250292387040643b520bdc337339b706b2`<br>ZIP `04d36f7faea023f78592ba3ba27594ab17fe6c5ff28952fcbc0c34333e1a5bf6` |
+| Upgrade (repeated on the final build): installed **0.4.0 from the GitHub release** (checksum matched), created a visit and an entry, installed 0.5.0 over it | ✅ data migrated, `pre-migration-v1` backup made, entry with Polish characters visible |
 | Uninstall | ✅ program removed, data folder kept |
 | Clean install of 0.5.0 + first start | ✅ empty welcome screen, version 0.5.0 |
 | ZIP extracted → `SymptoPage.exe` | ✅ starts, empty welcome screen |
