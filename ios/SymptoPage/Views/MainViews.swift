@@ -238,7 +238,7 @@ struct JournalView: View {
                     }
                     .foregroundStyle(Theme.ink)
                     .swipeActions {
-                        Button(model.t("action.delete"), role: .destructive) { model.change { try Commands.deleteEntry($0, id: e.id) } }
+                        Button(model.t("action.delete"), role: .destructive) { model.change { s, _ in try Commands.deleteEntry(s, id: e.id) } }
                     }
                 }
             }
