@@ -1,6 +1,9 @@
-name: iOS core tests and simulator build
-# Runs on a macOS runner: SwiftPM tests of SymptoPageCore against the shared
-# fixtures, then an unsigned iOS Simulator build of the SwiftUI app.
+name: iOS core tests and builds
+# macOS runner: SwiftPM tests of SymptoPageCore against the shared fixtures,
+# then UNSIGNED builds of the SwiftUI app:
+#   - SymptoPage-unsigned.ipa  (iphoneos; must be signed by the installer, e.g.
+#     Xcode, Sideloadly or AltStore with your Apple Account, before it can run)
+#   - SymptoPage-Simulator.zip (runs only in the iOS Simulator on a Mac)
 on:
   push:
     paths: ['ios/**', 'tests/fixtures/**', 'core/i18n.js', '.github/workflows/ios.yml']
@@ -12,17 +15,59 @@ permissions:
 jobs:
   ios:
     runs-on: macos-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Tool versions
-        run: xcodebuild -version && swift --version
+        run: xcodebuild -version && swift --version && sw_vers
       - name: Core tests (SwiftPM)
+        id: coretests
+        continue-on-error: true
         working-directory: ios/SymptoPageCore
-        run: swift test
+        run: |
+          set -o pipefail
+          swift test 2>&1 | tee ../../core-tests.log
       - name: Generate Xcode project
         working-directory: ios
         run: brew install xcodegen && xcodegen generate
-      - name: Build app for iOS Simulator (unsigned)
+      - name: Build for iPhone (unsigned) and package .ipa
         working-directory: ios
-        run: xcodebuild -project SymptoPage.xcodeproj -scheme SymptoPage -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build | tail -40
+        run: |
+          set -o pipefail
+          xcodebuild -project SymptoPage.xcodeproj -scheme SymptoPage -configuration Release \
+            -destination 'generic/platform=iOS' -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build > ../build-device.log 2>&1 || { grep -E 'error:' ../build-device.log | head -60; exit 1; }
+          grep -E 'BUILD SUCCEEDED' ../build-device.log
+          mkdir -p out/Payload && cp -R build/Build/Products/Release-iphoneos/SymptoPage.app out/Payload/
+          (cd out && zip -qry SymptoPage-unsigned.ipa Payload)
+      - name: Build for iOS Simulator
+        working-directory: ios
+        run: |
+          xcodebuild -project SymptoPage.xcodeproj -scheme SymptoPage -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' -derivedDataPath build-sim \
+            CODE_SIGNING_ALLOWED=NO build > ../build-sim.log 2>&1 || { grep -E 'error:' ../build-sim.log | head -60; exit 1; }
+          (cd build-sim/Build/Products/Debug-iphonesimulator && zip -qry ../../../../out/SymptoPage-Simulator.zip SymptoPage.app)
+      - name: Checksums
+        working-directory: ios/out
+        run: shasum -a 256 *.ipa *.zip | tee SHA256SUMS.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: SymptoPage-iOS-unsigned
+          path: |
+            ios/out/*.ipa
+            ios/out/*.zip
+            ios/out/SHA256SUMS.txt
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ios-build-logs
+          path: |
+            core-tests.log
+            build-device.log
+            build-sim.log
+      - name: Fail if core tests failed
+        if: steps.coretests.outcome == 'failure'
+        run: |
+          grep -E 'error|failed' core-tests.log | head -40
+          exit 1
