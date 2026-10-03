@@ -1,11 +1,18 @@
-# SymptoPage для Windows
+# SymptoPage — начните отсюда
 
-1. Откройте [релиз v0.4.0](https://github.com/maxksoongenshin/symptopage-windows/releases/tag/v0.4.0).
-2. В разделе **Assets** скачайте `SymptoPage-0.4.0-Windows-x64.zip`.
-3. На Windows нажмите правой кнопкой на архив → «Извлечь всё».
-4. Запустите `SymptoPage.exe` из распакованной папки. Не переносите EXE отдельно от соседних файлов.
-5. Выберите English или Polski и создайте свой визит. Примеров в приложении нет.
+**Версия 0.5.0 (Windows)** собрана и проверена на Windows 10. Как получить и установить её: [WINDOWS_SETUP_RU.md](WINDOWS_SETUP_RU.md).
 
-Сборка для Windows 10/11 x64. Тесты данных и полный сценарий интерфейса прошли на Windows в GitHub Actions. Это неподписанная предварительная версия.
+> Сборка 0.5.0 пока **не опубликована** в GitHub Releases: у автора изменений нет прав записи в репозиторий. Её публикует владелец (см. README → Handover). Опубликованный релиз сейчас — [v0.4.0](https://github.com/maxksoongenshin/symptopage-windows/releases/tag/v0.4.0).
 
-Установщик и отдельный portable EXE доступны в [успешной сборке](https://github.com/maxksoongenshin/symptopage-windows/actions/runs/37138724818): раздел **Artifacts → SymptoPage-Windows-x64**.
+Коротко:
+1. Установите `SymptoPage-0.5.0-Windows-Setup.exe` (сборка не подписана — см. WINDOWS_SETUP_RU §1).
+2. Выберите English или Polski.
+3. Добавьте врача, дату визита и причину. Демоданных нет.
+4. Кнопка **Teraz / Now** записывает симптом с текущим временем. Это не вызов помощи.
+5. После визита запишите результаты и назначения; в «Лекарствах» отмечайте приём.
+6. Перед визитом откройте «Raport dla lekarza» и сохраните PDF.
+7. Раз в неделю делайте резервную копию: Настройки → Eksportuj kopię ([docs/BACKUP_RU.md](docs/BACKUP_RU.md)).
+
+Данные 0.4.0 переносятся автоматически, исходный файл сохраняется в `backups`.
+
+iPhone: [IOS_SETUP_RU.md](IOS_SETUP_RU.md). Пока это только исходники, они ещё не собирались.
