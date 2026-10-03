@@ -13,7 +13,7 @@ Host: Windows 10 Pro 19045 x64 with WSL1. Electron work ran **on Windows** (port
 | `tests/i18n.test.mjs` — EN/PL completeness (UI, core, iOS Swift keys), placeholders, Polish plurals | 3 | ✅ | ✅ |
 | `tests/ios-fixtures.test.mjs` — iOS copies of fixtures and texts do not drift | 1 | ✅ | ✅ |
 | `tests/app.spec.cjs` — Electron end-to-end: first run, 2 doctors, Now with shared links, cancel, filters (one/several), draft kept across a language switch, outcome, prescription → course → dose marked twice = 1 record, self-assessment, report preview + PDF bytes with Polish characters, restart persistence; archive + delete with consequences; v0.4.0 migration; damaged data; accessible names on all screens + Ctrl+N / Esc | 5 | — | ✅ |
-| `ios/SymptoPageCore` `swift test` | 13 | ❌ not run (Swift hangs under WSL1) | — |
+| `ios/SymptoPageCore` `swift test` | 13 | ❌ Swift hangs under WSL1 | ✅ on GitHub macOS runner (Xcode 26.6, Swift 6.3.3), run 37154290012 |
 
 Total run: **38 + 5 passed, 0 failed.**
 
@@ -43,7 +43,7 @@ Screenshots of synthetic data (welcome, home, quick entry, journal with filter, 
 - Printing on a physical printer.
 - Screen reader (Narrator/NVDA) walkthrough; 200 % text scaling; Windows High Contrast.
 - Code signing (no certificate).
-- iOS: compilation, Simulator, device, notifications, PDF, Windows → iOS import. Nothing on iOS has run.
+- iOS: the app **compiles** (unsigned `iphoneos` and Simulator builds on a GitHub macOS runner, private repo `vladimir14169/symptopage-build`, run 37154290012). It has **not been launched** in a Simulator or on a device; notifications, PDF and import are untested there.
 - GitHub CI for this branch (no push access).
 
 ## Known limitations

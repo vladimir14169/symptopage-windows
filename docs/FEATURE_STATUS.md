@@ -48,3 +48,5 @@
 | HealthKit / датчики | ⛔ не включено | ⛔ | — |
 
 «core», «persistence», «reminders», «timezone», «i18n» — файлы `tests/*.test.mjs` (38 тестов); «UI» — `tests/app.spec.cjs` (5 сквозных Electron-тестов на Windows 10).
+
+**Update 2026-10-03:** the iOS app compiles on a GitHub macOS runner and the 13 SymptoPageCore tests pass there. iOS rows above remain 🟡 until the app is run on a device.

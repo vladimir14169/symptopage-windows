@@ -7,7 +7,7 @@ SymptoPage keeps the user's own records. It does **not** diagnose, change treatm
 | Platform | Status (0.5.0, 2026-10-03) |
 |---|---|
 | Windows 10/11 x64 (Electron) | Built and tested on Windows: 38 unit/integration tests, 5 end-to-end UI tests, installer/upgrade/portable/ZIP checks. **Unsigned.** Not published as a GitHub Release yet. |
-| iPhone (SwiftUI, iOS 17+) | Source code only — **not compiled or run yet** (needs a Mac or the macOS CI workflow). See `IOS_SETUP_RU.md`. |
+| iPhone (SwiftUI, iOS 17+) | Compiles on macOS CI (Xcode 26.6); core tests 13/13 pass there; unsigned `.ipa` + Simulator build produced. **Not launched on a device yet.** See `IOS_SETUP_RU.md`. |
 | Apple Watch | Architecture only (`docs/APPLE_ROADMAP.md`). |
 
 ## Features (Windows 0.5.0)

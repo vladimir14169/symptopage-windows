@@ -1,6 +1,8 @@
 # SymptoPage для iPhone — как собрать и запустить
 
-> **Честный статус на 2026-10-03.** В репозитории лежат исходники iOS-клиента: SwiftUI-приложение (`ios/SymptoPage`) и общее ядро (`ios/SymptoPageCore`). Код **ещё ни разу не компилировался и не запускался**: у автора нет Mac, а Swift под WSL1 не работает. Это не готовая проверенная сборка для iPhone. Первую сборку на Mac нужно считать проверкой, и ошибки компиляции на ней возможны. Отличия от Windows описаны в [docs/APPLE_ROADMAP.md](docs/APPLE_ROADMAP.md).
+> **Статус на 2026-10-03.** Приложение **собирается** на macOS-машине GitHub Actions (Xcode 26.6, workflow `.github/workflows/ios.yml`). Тесты ядра там проходят: 13/13. Получены неподписанные `SymptoPage-unsigned.ipa` (для iPhone) и `SymptoPage-Simulator.zip`. **На телефоне и в Simulator приложение ещё не запускалось.**
+>
+> **Быстрый путь без Mac (Windows):** неподписанный `.ipa` нужно подписать своим Apple Account при установке, например через Sideloadly или AltStore. Бесплатный аккаунт даёт профиль на 7 дней (§9, §13). На iPhone включите Режим разработчика (§8). Отличия от Windows описаны в [docs/APPLE_ROADMAP.md](docs/APPLE_ROADMAP.md).
 
 Требования Apple сверены с developer.apple.com на 2026-10-03. Актуальная стабильная Xcode — **27**, ей нужна macOS Tahoe 26.6 или новее. С 28 апреля 2026 App Store Connect принимает только сборки из Xcode 26+ с iOS 26 SDK. Минимальная поддерживаемая версия iOS для SymptoPage — **17**.
 
