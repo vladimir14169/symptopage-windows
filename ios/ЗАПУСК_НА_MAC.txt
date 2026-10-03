@@ -1,0 +1,46 @@
+SymptoPage для iPhone — как запустить на Mac
+=============================================
+
+Что нужно: Mac с Xcode 15 или новее (лучше последняя из App Store),
+iPhone с iOS 17 или новее, Apple ID.
+
+1. Распакуйте архив полностью. Не открывайте файлы прямо из zip.
+   Папки SymptoPage, SymptoPageCore и SymptoPage.xcodeproj должны лежать рядом.
+
+2. Откройте двойным щелчком  SymptoPage.xcodeproj
+   (не project.yml и не Package.swift).
+   Подождите, пока Xcode внизу закончит "Resolving packages / Indexing".
+
+3. Сначала проверка без телефона: вверху выберите схему SymptoPage
+   и любой "iPhone 1x" из списка симуляторов → нажмите ▶ (Cmd+R).
+   Если в симуляторе открылось приложение — код в порядке.
+
+4. На телефон:
+   a) Xcode → Settings → Accounts → "+" → войдите Apple ID.
+   b) Слева синий значок проекта SymptoPage → TARGETS: SymptoPage →
+      вкладка "Signing & Capabilities" → Team: выберите свой
+      ("... (Personal Team)").
+   c) Bundle Identifier: замените  app.symptopage.ios  на свой,
+      например  com.ivanov.symptopage  (любой уникальный).
+   d) Подключите iPhone кабелем, на телефоне "Доверять".
+      iPhone: Настройки → Конфиденциальность и безопасность →
+      Режим разработчика → Вкл. → перезагрузка.
+   e) Вверху выберите свой iPhone → ▶.
+   f) Если на телефоне "Ненадёжный разработчик":
+      Настройки → Основные → VPN и управление устройством →
+      ваш Apple ID → Доверять. Запустите снова.
+
+Частые ошибки:
+- "future Xcode project file format"  → обновите Xcode.
+- "requires a development team"       → шаг 4b.
+- "Failed to register bundle identifier" / "not available" → шаг 4c, другое имя.
+- "Developer Mode disabled"            → шаг 4d.
+- iPhone не в списке / "iOS version lower than deployment target" → нужна iOS 17+.
+- Missing package product 'SymptoPageCore' → File → Packages →
+  Reset Package Caches, затем снова ▶. Проверьте, что папка
+  SymptoPageCore лежит рядом с SymptoPage.xcodeproj.
+
+С бесплатным Apple ID приложение работает 7 дней, потом снова ▶ из Xcode.
+
+Если не получилось — пришлите скриншот красной ошибки в Xcode
+(значок ⚠ / ✖ слева, вкладка Issues) и версию Xcode (Xcode → About Xcode).

@@ -34,8 +34,9 @@ jobs:
         run: |
           mkdir -p ios/out
           cp IOS_SETUP_RU.md ios/
-          zip -qry ios/out/SymptoPage-iOS-source.zip ios -x 'ios/out/*' 'ios/build*' 'ios/SymptoPageCore/.build/*'
+          zip -qry ios/out/SymptoPage-iOS-source.zip ios -x 'ios/out/*' 'ios/build*' 'ios/SymptoPageCore/.build/*' 'ios/.gitignore'
           rm ios/IOS_SETUP_RU.md
+          grep -E 'objectVersion' ios/SymptoPage.xcodeproj/project.pbxproj
       - name: Build for iPhone (unsigned) and package .ipa
         working-directory: ios
         run: |
