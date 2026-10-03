@@ -8,7 +8,7 @@
   "main": "src/main.cjs",
   "scripts": {
     "start": "electron .",
-    "test": "node --test tests/store.test.cjs",
+    "test": "node --test tests/store.test.cjs tests/core.test.mjs tests/timezone.test.mjs tests/persistence.test.mjs",
     "test:ui": "playwright test",
     "build:win": "electron-builder --win nsis portable zip --x64 --publish never",
     "build:dir": "electron-builder --dir --publish never",
