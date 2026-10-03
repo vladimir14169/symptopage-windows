@@ -489,6 +489,9 @@ const M = {
   "error.open": ["The file could not be opened.", "Nie udało się otworzyć pliku."],
   "error.fillRequired": ["Fill in the required fields.", "Wypełnij wymagane pola."],
 
+  "course.addTime": ["Add time", "Dodaj godzinę"],
+  "ios.notifyLimits": ["iOS delivers reminders even when SymptoPage is closed, but not while the phone is off, and Focus or notification settings can silence them. Up to 60 upcoming reminders are scheduled at a time; opening the app refreshes them.", "iOS dostarcza przypomnienia także przy zamkniętej aplikacji, ale nie przy wyłączonym telefonie; tryb skupienia lub ustawienia powiadomień mogą je wyciszyć. Planowanych jest do 60 najbliższych przypomnień; otwarcie aplikacji je odświeża."],
+  "ios.noSync": ["Moving a backup file between devices is a manual copy, not automatic synchronisation.", "Przeniesienie pliku kopii między urządzeniami to ręczne kopiowanie, a nie automatyczna synchronizacja."],
   "reminder.title": ["SymptoPage reminder", "Przypomnienie SymptoPage"],
   "reminder.generic": ["You have a scheduled entry. Open SymptoPage to mark it.", "Masz zaplanowany wpis. Otwórz SymptoPage, aby go oznaczyć."],
   "reminder.detailed": ["{time} · {name} — {dose}. Mark it in SymptoPage.", "{time} · {name} — {dose}. Oznacz w SymptoPage."],

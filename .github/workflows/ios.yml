@@ -1,0 +1,28 @@
+name: iOS core tests and simulator build
+# Runs on a macOS runner: SwiftPM tests of SymptoPageCore against the shared
+# fixtures, then an unsigned iOS Simulator build of the SwiftUI app.
+on:
+  push:
+    paths: ['ios/**', 'tests/fixtures/**', 'core/i18n.js', '.github/workflows/ios.yml']
+  pull_request:
+    paths: ['ios/**']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ios:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Tool versions
+        run: xcodebuild -version && swift --version
+      - name: Core tests (SwiftPM)
+        working-directory: ios/SymptoPageCore
+        run: swift test
+      - name: Generate Xcode project
+        working-directory: ios
+        run: brew install xcodegen && xcodegen generate
+      - name: Build app for iOS Simulator (unsigned)
+        working-directory: ios
+        run: xcodebuild -project SymptoPage.xcodeproj -scheme SymptoPage -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build | tail -40

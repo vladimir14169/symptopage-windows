@@ -26,6 +26,10 @@ test("all static and enumerated keys used by the UI exist", () => {
   for (const f of [...files(path.join(root, "ui/js")), ...files(path.join(root, "core"))])
     for (const m of fs.readFileSync(f, "utf8").matchAll(/\bt\("([\w.]+)"[,)]/g)) used.add(m[1]);
   for (const k of ["welcome.f1", "welcome.f2", "welcome.f3"]) used.add(k);
+  // iOS SwiftUI code uses the same keys via model.t("…") / translator.t("…").
+  const swift = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((d) => (d.isDirectory() ? swift(path.join(dir, d.name)) : d.name.endsWith(".swift") ? [path.join(dir, d.name)] : []));
+  for (const f of swift(path.join(root, "ios/SymptoPage")))
+    for (const m of fs.readFileSync(f, "utf8").matchAll(/\bt\("([\w.]+)"[,)]/g)) used.add(m[1]);
   const enumKeys = [
     ...SPECIALTIES.map((k) => "specialty." + k), ...SYMPTOMS.map((k) => "symptom." + k), ...STAGES.map((k) => "stage." + k),
     ...FREQUENCIES.map((k) => "frequency." + k), ...INTENSITIES.map((k) => "intensity." + k), ...VISIT_KINDS.map((k) => "visit.kind." + k),

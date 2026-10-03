@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 2,
+  "settings": {
+    "language": "pl",
+    "notificationsEnabled": true,
+    "notificationDetails": false,
+    "country": "PL"
+  },
+  "doctors": [
+    {
+      "id": "id-1",
+      "specialty": "cardiologist",
+      "specialtyCustom": "",
+      "name": "TEST Dr A",
+      "clinic": "TEST Clinic",
+      "note": "",
+      "archivedAt": null,
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    },
+    {
+      "id": "id-2",
+      "specialty": "other",
+      "specialtyCustom": "TEST Allergist",
+      "name": "",
+      "clinic": "",
+      "note": "",
+      "archivedAt": null,
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    }
+  ],
+  "observations": [
+    {
+      "id": "id-3",
+      "doctorId": "id-1",
+      "reason": "TEST kołatanie serca",
+      "questions": "TEST question?",
+      "stage": "visited",
+      "stageHistory": [
+        {
+          "stage": "waiting",
+          "at": "2026-10-03T10:00:00.000Z"
+        },
+        {
+          "stage": "visited",
+          "at": "2026-10-03T10:00:00.000Z"
+        }
+      ],
+      "previousObservationId": null,
+      "archivedAt": null,
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    },
+    {
+      "id": "id-5",
+      "doctorId": "id-2",
+      "reason": "TEST rash",
+      "questions": "",
+      "stage": "waiting",
+      "stageHistory": [
+        {
+          "stage": "waiting",
+          "at": "2026-10-03T10:00:00.000Z"
+        }
+      ],
+      "previousObservationId": null,
+      "archivedAt": null,
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    }
+  ],
+  "visits": [
+    {
+      "id": "id-4",
+      "observationId": "id-3",
+      "date": "2026-11-19",
+      "time": "09:30",
+      "kind": "initial",
+      "status": "done",
+      "previousVisitId": null,
+      "outcome": {
+        "notes": "TEST notes",
+        "recommendations": "TEST rec",
+        "followUpDate": "2027-01-10",
+        "returnAdvice": "TEST return",
+        "source": "document"
+      },
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    },
+    {
+      "id": "id-6",
+      "observationId": "id-5",
+      "date": "2026-10-20",
+      "time": null,
+      "kind": "initial",
+      "status": "planned",
+      "previousVisitId": null,
+      "outcome": null,
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    }
+  ],
+  "prescriptions": [
+    {
+      "id": "id-7",
+      "visitId": "id-4",
+      "kind": "medication",
+      "text": "TEST Med 5 mg",
+      "dueDate": null,
+      "source": "document",
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    }
+  ],
+  "courses": [
+    {
+      "id": "id-8",
+      "observationId": "id-3",
+      "prescriptionId": "id-7",
+      "name": "TEST Med",
+      "dose": "5 mg",
+      "instructions": "TEST",
+      "startDate": "2026-10-01",
+      "endDate": "2026-10-31",
+      "indefinite": false,
+      "times": [
+        "08:00",
+        "20:00"
+      ],
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "stoppedAt": null,
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    }
+  ],
+  "doseEvents": [
+    {
+      "id": "id-8@2026-10-02T08:00",
+      "courseId": "id-8",
+      "scheduledDate": "2026-10-02",
+      "scheduledTime": "08:00",
+      "status": "taken",
+      "actualAt": "2026-10-02T06:10:00.000Z",
+      "snoozedUntil": null,
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    },
+    {
+      "id": "id-8@2026-10-02T20:00",
+      "courseId": "id-8",
+      "scheduledDate": "2026-10-02",
+      "scheduledTime": "20:00",
+      "status": "skipped",
+      "actualAt": null,
+      "snoozedUntil": null,
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    }
+  ],
+  "entries": [
+    {
+      "id": "id-9",
+      "symptom": "dizziness",
+      "customLabel": "",
+      "occurredAt": "2026-10-02T07:00:00.000Z",
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z",
+      "note": "TEST zażółć",
+      "durationMinutes": 15,
+      "intensity": 2,
+      "count": 2,
+      "trigger": "TEST stairs",
+      "observationIds": [
+        "id-3",
+        "id-5"
+      ]
+    },
+    {
+      "id": "id-10",
+      "symptom": "custom",
+      "customLabel": "TEST tingling",
+      "occurredAt": "2026-10-01T07:00:00.000Z",
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z",
+      "note": "",
+      "durationMinutes": null,
+      "intensity": null,
+      "count": null,
+      "trigger": "",
+      "observationIds": []
+    }
+  ],
+  "dailyRatings": [
+    {
+      "id": "id-11",
+      "date": "2026-10-02",
+      "symptom": "palpitations",
+      "customLabel": "",
+      "frequency": "several",
+      "note": "",
+      "observationIds": [
+        "id-3"
+      ],
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    }
+  ],
+  "assessments": [
+    {
+      "id": "id-12",
+      "observationId": "id-3",
+      "date": "2026-10-02",
+      "rating": "better",
+      "note": "",
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    }
+  ],
+  "attachments": []
+}

@@ -1,0 +1,5 @@
+{
+  "images" : [ { "idiom" : "universal", "platform" : "ios", "size" : "1024x1024" } ],
+  "info" : { "author" : "xcode", "version" : 1 },
+  "_comment" : "Logo not delivered yet: no icon image. Add a 1024x1024 PNG made from the official logo here."
+}
